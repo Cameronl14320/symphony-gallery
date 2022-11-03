@@ -1,0 +1,54 @@
+@import "styles/envars.scss";
+
+$container-margin: 8px;
+$button-margin: $container-margin / 2;
+
+.container {
+  display: flex;
+  flex: 1;
+  background: $secondary;
+  color: white;
+  font-size: 1.25rem;
+  justify-content: space-between;
+}
+
+.container a {
+  align-self: center;
+  justify-self: center;
+}
+
+.container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.container ul li {
+  display: flex;
+}
+
+.left {
+  display: flex;
+  margin: $container-margin 0 $container-margin $button-margin;
+}
+
+.left li a {
+  border-right: 1px solid $secondary-light;
+  padding-right: $button-margin;
+  margin-left: $button-margin;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  margin-left: $button-margin;
+}
+
+.right {
+  display: flex;
+  margin: $container-margin $container-margin $container-margin 0;
+}
+
+.right div {
+  margin-right: $button-margin;
+  cursor: pointer;
+}
