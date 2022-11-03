@@ -1,30 +1,16 @@
 import Link from "next/link";
 import styles from "./header.module.scss";
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import { firebaseAuth } from "../../config/firebase";
+import { onAuthStateChanged } from "@firebase/auth";
 
 
 export const Header = () => {
-    const [triggerReload, setTriggerReload] = useState(false);
-    const router = useRouter();
+    const [signedIn, setSignedIn] = useState(!!firebaseAuth.currentUser);
 
-    useEffect(() => {
-        if (triggerReload) {
-            setTriggerReload(false);
-            router.reload();
-        }
-    }, [triggerReload]);
-
-    const handleSignOut = () => {
-        firebaseAuth.signOut()
-            .then(() => {
-                setTriggerReload(true);
-            })
-            .catch((error) => {
-                console.log(error.code + error.message);
-            });
-    }
+    onAuthStateChanged(firebaseAuth, (user) => {
+       setSignedIn(!!user);
+    });
 
     return (
         <div className={styles.container}>
@@ -43,10 +29,10 @@ export const Header = () => {
                 </li>
             </ul>
             <ul className={styles.right}>
-                <div style={{display: !firebaseAuth.currentUser ? "block" : "none"}}>
+                <div style={{display: signedIn ? "none" : "block"}}>
                     <Link href={"/sign-in"}>Sign In</Link>
                 </div>
-                <div onClick={() => handleSignOut()} style={{display: !!firebaseAuth.currentUser ? "block" : "none"}}>Sign Out</div>
+                <div onClick={() => firebaseAuth.signOut()} style={{display: signedIn ? "block" : "none"}}>Sign Out</div>
                 <Link href={"/profile"}>Profile</Link>
             </ul>
         </div>

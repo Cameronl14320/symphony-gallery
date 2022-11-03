@@ -1,5 +1,4 @@
 import {IUser} from "../data/IUser";
-import {NextApiResponse} from "next";
 
 export class UserService {
 

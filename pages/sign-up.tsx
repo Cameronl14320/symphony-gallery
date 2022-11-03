@@ -17,25 +17,22 @@ export const SignUp = () => {
     //     router.replace("/").then(_ => null);
     // }
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         setLoading(true);
-        createUserWithEmailAndPassword(firebaseAuth, email, password)
-            .then((user) => {
-                userService.createUser(user.user.uid, nickname)
-                    .then(res => {
-                        if (res.status === 200) {
-                            router.replace("/").then(_ => null);
-                        } else {
-                        }
-                    })
-                    .catch((error) => {
-                        console.log("failed to create user");
-                    });
-                })
-            .catch((error) => {
+        try {
+            const user = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+
+            const create = await userService.createUser(user.user.uid, nickname);
+
+            if (create.ok) {
+                router.replace("/").then(_ => null);
+            } else {
                 setLoading(false);
-                console.log("failed to sign up");
-            });
+            }
+        } catch (error) {
+            setLoading(false);
+            console.log("failed to sign up");
+        }
     }
 
     return (
