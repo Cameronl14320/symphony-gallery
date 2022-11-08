@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  padding-top: 64px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background: orange;
+  padding: 8px;
+  border-radius: 8px;
+}

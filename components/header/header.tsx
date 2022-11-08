@@ -3,6 +3,7 @@ import styles from "./header.module.scss";
 import { useState } from "react";
 import { firebaseAuth } from "../../config/firebase";
 import { onAuthStateChanged } from "@firebase/auth";
+import { Browse, Profile, SignIn } from "../../config/routes";
 
 
 export const Header = () => {
@@ -19,21 +20,21 @@ export const Header = () => {
                     <Link href={"/"}>Home</Link>
                 </li>
                 <li>
-                    <Link href={"/browse"}>Browse</Link>
+                    <Link href={Browse}>Browse</Link>
                 </li>
                 <li>
                     <div className={styles.search}>
-                        Search
-                        <Link href={"/browse"}>Find</Link>
+                        <input type={"string"} className={styles.searchBar}/>
+                        <Link href={Browse}>Find</Link>
                     </div>
                 </li>
             </ul>
             <ul className={styles.right}>
                 <div style={{display: signedIn ? "none" : "block"}}>
-                    <Link href={"/sign-in"}>Sign In</Link>
+                    <Link href={SignIn}>Sign In</Link>
                 </div>
                 <div onClick={() => firebaseAuth.signOut()} style={{display: signedIn ? "block" : "none"}}>Sign Out</div>
-                <Link href={"/profile"}>Profile</Link>
+                <Link href={Profile}>Profile</Link>
             </ul>
         </div>
     );

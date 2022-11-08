@@ -1,21 +1,33 @@
 import { useRouter } from "next/router";
-import { firebaseAuth } from "../config/firebase";
-import { useState } from "react";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
-import UserService from "../services/UserService";
+import { firebaseAuth } from "../../config/firebase";
+import { useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "@firebase/auth";
+import UserService from "../../services/UserService";
 
 export const SignUp = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const [userService, setUserService] = useState(new UserService());
     const router = useRouter();
 
-    // if (!!firebaseAuth.currentUser) {
-    //     const router = useRouter();
-    //     router.replace("/").then(_ => null);
-    // }
+    useEffect(() => {
+        if (!userService) { // Ensure that userService is always intialised
+            setUserService(new UserService());
+        }
+
+        // Do not allow users to sign up if they are already signed in
+        if (!!firebaseAuth.currentUser) {
+            router.replace("/").then(_ => null);
+        }
+    }, []);
+
+    onAuthStateChanged(firebaseAuth, (auth) => {
+        if (!!auth) {
+            router.replace("/").then(_ => null);
+        }
+    });
 
     const handleSignUp = async () => {
         setLoading(true);
@@ -24,15 +36,20 @@ export const SignUp = () => {
 
             const create = await userService.createUser(user.user.uid, nickname);
 
-            if (create.ok) {
-                router.replace("/").then(_ => null);
-            } else {
-                setLoading(false);
+            if (!create.ok) {
+                console.log("failed to create user, need to reconciliate");
             }
         } catch (error) {
             setLoading(false);
             console.log("failed to sign up");
         }
+    }
+    if (loading) {
+        return (
+            <div>
+                Loading loading loading
+            </div>
+        )
     }
 
     return (
@@ -43,7 +60,6 @@ export const SignUp = () => {
             <input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)}></input>
             <label>Password</label>
             <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)}></input>
-
             <button onClick={() => handleSignUp()}>Submit</button>
         </div>
     );

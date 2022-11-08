@@ -1,7 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firebaseDb } from "../../../config/firebase";
-import { addDoc, collection, doc, getDoc, getDocs, updateDoc, setDoc } from "@firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "@firebase/firestore";
 
 const USER_COLLECTION_NAME = "users";
 
