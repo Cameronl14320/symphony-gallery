@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { firebaseAuth } from "../config/firebase";
-import { Root, SignIn } from "../config/routes";
+import { Browse, Root, SignIn } from "../config/routes";
 import { onAuthStateChanged } from "@firebase/auth";
 
 
@@ -10,13 +10,13 @@ export const Profile = () => {
 
     useEffect(() => {
         if (!firebaseAuth.currentUser) {
-            router.push(SignIn).then(_ => null);
+            router.push({pathname: SignIn, query: { redirectTo: Browse }}, Browse).then(_ => null);
         }
     }, []);
 
     onAuthStateChanged(firebaseAuth, (auth) => {
         if (!auth) {
-            router.push(Root).then(_ => null);
+            router.push({pathname: SignIn, query: { redirectTo: Browse }}, Browse).then(_ => null);
         }
     });
 

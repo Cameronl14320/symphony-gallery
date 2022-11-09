@@ -4,7 +4,9 @@ import {onAuthStateChanged, signInWithEmailAndPassword} from "@firebase/auth";
 import { useState } from "react";
 import Link from "next/link";
 import styles from "./sign-in.module.scss";
-import { SignUp } from "../../config/routes";
+import {Root, SignUp} from "../../config/routes";
+import {GetServerSideProps} from "next";
+import {ParsedUrlQuery} from "querystring";
 
 const signInErrors: Map<string, string> = new Map([
    ["auth/user-not-found", "Invalid email or password"],
@@ -20,7 +22,8 @@ export const SignIn = () => {
 
     onAuthStateChanged(firebaseAuth, (auth) => {
         if (!!auth) {
-            router.replace("/").then(_ => null);
+            const redirectTo = !!(router.query.redirectTo as string) ? router.query.redirectTo as string : Root;
+            router.replace(redirectTo).then(_ => null);
         }
     });
 
