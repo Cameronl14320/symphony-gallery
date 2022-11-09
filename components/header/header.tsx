@@ -8,13 +8,16 @@ import {useRouter} from "next/router";
 
 
 export const Header = () => {
-    const [signedIn, setSignedIn] = useState(!!firebaseAuth.currentUser);
+    const [signedIn, setSignedIn] = useState(false);
     const [searchString, setSearchString] = useState<string>("");
     const router = useRouter();
 
-    onAuthStateChanged(firebaseAuth, (user) => {
-        setSignedIn(!!user);
-    });
+    useEffect(() => {
+        setSignedIn(!!firebaseAuth.currentUser);
+        onAuthStateChanged(firebaseAuth, (user) => {
+            setSignedIn(!!user);
+        });
+    }, []);
 
     return (
         <div className={styles.container}>

@@ -12,13 +12,13 @@ export const Profile = () => {
         if (!firebaseAuth.currentUser) {
             router.push({pathname: SignIn, query: { redirectTo: Browse }}, Browse).then(_ => null);
         }
-    }, []);
 
-    onAuthStateChanged(firebaseAuth, (auth) => {
-        if (!auth) {
-            router.push({pathname: SignIn, query: { redirectTo: Browse }}, Browse).then(_ => null);
-        }
-    });
+        onAuthStateChanged(firebaseAuth, (auth) => {
+            if (!auth) {
+                router.push({pathname: SignIn, query: { redirectTo: Browse }}, Browse).then(_ => null);
+            }
+        });
+    }, []);
 
     if (!!firebaseAuth.currentUser) {
         return (

@@ -3,6 +3,7 @@ import { firebaseAuth } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "@firebase/auth";
 import UserService from "../../services/UserService";
+import {Root} from "../../config/routes";
 
 export const SignUp = () => {
     const [loading, setLoading] = useState(false);
@@ -19,15 +20,15 @@ export const SignUp = () => {
 
         // Do not allow users to sign up if they are already signed in
         if (!!firebaseAuth.currentUser) {
-            router.replace("/").then(_ => null);
+            router.replace(Root).then(_ => null);
         }
-    }, []);
 
-    onAuthStateChanged(firebaseAuth, (auth) => {
-        if (!!auth) {
-            router.replace("/").then(_ => null);
-        }
-    });
+        onAuthStateChanged(firebaseAuth, (user) => {
+            if (!!user) {
+                router.replace(Root).then(_ => null);
+            }
+        });
+    }, []);
 
     const handleSignUp = async () => {
         setLoading(true);
