@@ -55,11 +55,11 @@ export const SignUp = () => {
     return (
         <div>
             <label>Nickname</label>
-            <input type="string" id="nickname" value={nickname} onChange={(event) => setNickname(event.target.value)}></input>
+            <input type="string" id="nickname" value={nickname} onChange={(event) => setNickname(event.target.value)} required/>
             <label>Email</label>
-            <input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)}></input>
+            <input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} required/>
             <label>Password</label>
-            <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)}></input>
+            <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
             <button onClick={() => handleSignUp()}>Submit</button>
         </div>
     );

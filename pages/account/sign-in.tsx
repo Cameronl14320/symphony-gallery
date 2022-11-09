@@ -51,10 +51,9 @@ export const SignIn = () => {
             <div className={styles.content}>
                 <p style={{display: !!error ? "block" : "none"}}>{error}</p>
                 <label>Email</label>
-                <input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)}></input>
+                <input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} required/>
                 <label>Password</label>
-                <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)}></input>
-
+                <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
                 <button onClick={() => handleStandardSignIn()}>Sign in</button>
                 <Link href={SignUp}>
                     Sign up

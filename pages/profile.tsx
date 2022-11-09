@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { firebaseAuth } from "../config/firebase";
-import { Browse, Root, SignIn } from "../config/routes";
+import { Browse, SignIn } from "../config/routes";
 import { onAuthStateChanged } from "@firebase/auth";
 
 

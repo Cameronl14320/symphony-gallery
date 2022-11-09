@@ -1,11 +1,22 @@
-import { getAuth } from "@firebase/auth";
+import { firebaseAuth } from "../config/firebase";
+import {useRouter} from "next/router";
 
 export const Browse = () => {
-    const auth = getAuth();
+    const router = useRouter();
+
+    const searchString = router.query.searchString as string;
+
+    if (!!searchString) {
+        return (
+          <div>
+              Browsing for {searchString}
+          </div>
+        );
+    }
 
     return (
         <div>
-            Browse
+            Browse in general
         </div>
     )
 }
