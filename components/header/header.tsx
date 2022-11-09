@@ -3,7 +3,7 @@ import styles from "./header.module.scss";
 import {useEffect, useState} from "react";
 import { firebaseAuth } from "../../config/firebase";
 import { onAuthStateChanged } from "@firebase/auth";
-import { Browse, Profile, SignIn } from "../../config/routes";
+import { Browse, Profile, Root, SignIn, SignOut } from "../../config/routes";
 import {useRouter} from "next/router";
 
 
@@ -23,7 +23,7 @@ export const Header = () => {
         <div className={styles.container}>
             <ul className={styles.left}>
                 <li>
-                    <Link href={"/"}>Home</Link>
+                    <Link href={Root}>Home</Link>
                 </li>
                 <li>
                     <Link href={Browse}>Browse</Link>
@@ -39,7 +39,7 @@ export const Header = () => {
                 <div style={{display: signedIn || router.route === SignIn ? "none" : "block"}}>
                     <Link href={SignIn}>Sign In</Link>
                 </div>
-                <div onClick={() => firebaseAuth.signOut()} style={{display: signedIn ? "block" : "none"}}>Sign Out</div>
+                <div onClick={() => router.push(SignOut)} style={{display: signedIn ? "block" : "none"}}>Sign Out</div>
                 <Link href={Profile}>Profile</Link>
             </ul>
         </div>

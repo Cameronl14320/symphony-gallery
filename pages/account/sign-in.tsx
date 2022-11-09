@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import { firebaseAuth } from "../../config/firebase";
 import {onAuthStateChanged, signInWithEmailAndPassword} from "@firebase/auth";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import Link from "next/link";
 import styles from "./sign-in.module.scss";
 import {Root, SignUp} from "../../config/routes";
@@ -19,15 +19,6 @@ export const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null | undefined>(null);
-
-    useEffect(() => {
-        onAuthStateChanged(firebaseAuth, (user) => {
-            if (!!user) {
-                const redirectTo = !!(router.query.redirectTo as string) ? router.query.redirectTo as string : Root;
-                router.replace(redirectTo).then(_ => null);
-            }
-        });
-    }, [])
 
     const handleStandardSignIn = () => {
         setLoading(true);
