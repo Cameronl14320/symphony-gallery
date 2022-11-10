@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Browse, Profile, Root, SignIn, SignOut } from "../../config/routes";
 import { useRouter } from "next/router";
 import { AppContext } from "../../config/appContext";
+import {firebaseAuth} from "../../config/firebase";
 
 export const Header = () => {
     const [searchString, setSearchString] = useState<string>("");
@@ -31,7 +32,7 @@ export const Header = () => {
                         <div style={{display: context.isLoggedIn || router.route === SignIn ? "none" : "block"}}>
                             <Link href={SignIn}>Sign In</Link>
                         </div>
-                        <div onClick={() => router.push(SignOut)} style={{display: context.isLoggedIn ? "block" : "none"}}>Sign Out</div>
+                        <div onClick={() => firebaseAuth.signOut().then()} style={{display: context.isLoggedIn ? "block" : "none"}}>Sign Out</div>
                         <Link href={Profile}>Profile</Link>
                     </ul>
                 </div>

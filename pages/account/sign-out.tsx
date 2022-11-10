@@ -1,6 +1,7 @@
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import {firebaseAuth} from "../../config/firebase";
+import {Root} from "../../config/routes";
 
 export const SignOut = () => {
     const router = useRouter();
@@ -8,7 +9,7 @@ export const SignOut = () => {
     useEffect(() => {
         firebaseAuth.signOut()
             .then(_ => {
-                router.back();
+                router.push(Root).then();
             })
             .catch(error => {
                 console.log(error);

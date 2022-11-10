@@ -1,4 +1,3 @@
-import { firebaseAuth } from "../config/firebase";
 import {useRouter} from "next/router";
 
 export const Browse = () => {
