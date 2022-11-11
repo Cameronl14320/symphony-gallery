@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import styles from "./sign-in.module.scss";
-import { Root, SignUp, SignIn as signIn} from "../../config/routes";
+import { Root, SignIn as signIn} from "../../config/routes";
 import { useAppContext} from "../../config/appContext";
 import Membership from "../../components/auth/membership";
 

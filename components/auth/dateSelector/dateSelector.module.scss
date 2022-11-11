@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+}
+
+.container select {
+  appearance: none;
+  padding: 4px;
+  border: none;
+  border-radius: 2px;
+  margin-right: 4px;
+}

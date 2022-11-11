@@ -1,15 +1,8 @@
 import {useState} from "react";
-import Link from "next/link";
-import {SignUp} from "../../config/routes";
-import {signInWithEmailAndPassword} from "@firebase/auth";
-import {firebaseAuth} from "../../config/firebase";
 import styles from "./membership.module.scss";
 import Button from "../shared/button";
-
-const membershipErrors: Map<string, string> = new Map([
-    ["auth/user-not-found", "Invalid email or password"],
-    ["", ""],
-]);
+import { useUserService } from "../../config/config";
+import DateSelector from "./dateSelector/dateSelector";
 
 export const Membership = () => {
     const [loading, setLoading] = useState(false);
@@ -18,18 +11,36 @@ export const Membership = () => {
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const [error, setError] = useState<string | null | undefined>(null);
+    const [date, setDate] = useState<Date | null>(null);
+    const userService = useUserService();
 
     const toggleIsSignIn = () => {
         setIsSignIn(!isSignIn);
     }
 
-    const handleStandardSignIn = () => {
+    const handleStandardSignIn = async () => {
         setLoading(true);
-        signInWithEmailAndPassword(firebaseAuth, email, password)
-            .catch((error => {
-                setLoading(false);
-                setError(membershipErrors.get(error.code));
-            }));
+        const result = await userService.signInWithEmailAndPassword(email, password);
+
+        if (!result.success) {
+            setLoading(false);
+            setError(result.error);
+        }
+    }
+
+    const handleStandardSignUp = async () => {
+        if (!date) {
+            setError("Please select your date of birth");
+            return;
+        }
+
+        setLoading(true);
+        const result = await userService.signUpUserWithEmailAndPassword(email, password, nickname, date);
+
+        if (!result.success) {
+            setLoading(false);
+            setError(result.error);
+        }
     }
 
     return (
@@ -45,11 +56,15 @@ export const Membership = () => {
                 <label>Password</label>
                 <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} required/>
             </div>
+            <div className={styles.inputSection} style={{display: !isSignIn ? "flex" : "none"}}>
+                <DateSelector/>
+            </div>
             <div className={styles.buttonSection}>
-                <Button onClick={() => handleStandardSignIn()}>Sign in</Button>
-                <Link href={SignUp}>
-                    Sign up
-                </Link>
+                <Button onClick={() => {isSignIn ? handleStandardSignIn() : handleStandardSignUp()}}>{isSignIn ? "Sign in" : "Sign up"}</Button>
+                <div style={{display: "flex"}}>
+                    <label>{isSignIn ? "Don't have an account?" : "Already have an account?"}</label>
+                    <Button style={{marginLeft: "4px"}} onClick={() => toggleIsSignIn()}>{isSignIn ? "Sign up" : "Sign in"}</Button>
+                </div>
             </div>
         </div>
     );
