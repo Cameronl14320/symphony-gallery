@@ -13,7 +13,7 @@ export const DateSelector = () => {
 
     useEffect(() => {
         console.log(selectedMonth + " : " + selectedYear)
-        const date = new Date(selectedMonth, selectedYear, 0).getDate();
+        const date = new Date(selectedYear, selectedMonth, 0).getDate();
         console.log(date);
         setValidDays(date);
     }, [selectedMonth, selectedYear]);
