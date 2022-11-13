@@ -1,7 +1,9 @@
 import styles from "./dateSelector.module.scss";
 import {useEffect, useState} from "react";
 
-const days = []
+const YEAR_RANGE = 130;
+const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 
 export const DateSelector = () => {
     const [loading, setLoading] = useState(false);
@@ -12,25 +14,20 @@ export const DateSelector = () => {
     const [validDays, setValidDays] = useState(new Date(selectedMonth, selectedYear, 0).getDate());
 
     useEffect(() => {
-        console.log(selectedMonth + " : " + selectedYear)
         const date = new Date(selectedYear, selectedMonth, 0).getDate();
-        console.log(date);
-        setValidDays(date);
+        if (date != validDays) {
+            setValidDays(date);
+        } else {
+            setLoading(false);
+        }
     }, [selectedMonth, selectedYear]);
 
     useEffect(() => {
-        console.log(validDays);
         if (selectedDay > validDays) {
             setSelectedDay(validDays);
         }
+        setLoading(false);
     }, [validDays]);
-
-    const days: any[] = [];
-    for (let i = 0; i < validDays; i++) {
-        days.push(
-            <option key={"day-" + (i + 1)} value={i + 1}>{i + 1}</option>
-        );
-    }
 
     const handleYearChange = (year: number) => {
         setLoading(true);
@@ -42,29 +39,46 @@ export const DateSelector = () => {
         setSelectedMonth(month);
     }
 
-    const validMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const months = validMonths.map((month, index) => <option key={"month-" + month} value={index}>{month}</option>)
-
-    const years = [];
-    for (let i = 0; i < 100; i++) {
-        years.push(
-          <option key={"year-" + (latestDate.getFullYear() - i)} value={latestDate.getFullYear() - i}>{latestDate.getFullYear() - i}</option>
-        );
-    }
+    // Generate the drop-down options for date selection
+    const days = generateDays(validDays);
+    const months = VALID_MONTHS.map((month, index) => <option key={"month-" + month} value={index + 1}>{month}</option>)
+    const years = generateYears(latestDate.getFullYear());
 
     return (
       <div className={styles.container}>
-          <select name="day" id="day" value={selectedDay} onChange={(event) => setSelectedDay(Number.parseInt(event.target.value))}>
+          <select name="day" id="day" value={selectedDay} onChange={(event) => setSelectedDay(Number.parseInt(event.target.value))} disabled={loading}>
               {days}
           </select>
-          <select name="month" id="month" value={selectedMonth} onChange={(event) => setSelectedMonth(Number.parseInt(event.target.value))}>
+          <select name="month" id="month" value={selectedMonth} onChange={(event) => handleMonthChange(Number.parseInt(event.target.value))} disabled={loading}>
               {months}
           </select>
-          <select name="year" id="year" value={selectedYear} onChange={(event) => setSelectedYear(Number.parseInt(event.target.value))}>
+          <select name="year" id="year" value={selectedYear} onChange={(event) => handleYearChange(Number.parseInt(event.target.value))} disabled={loading}>
               {years}
           </select>
       </div>
     );
+}
+
+const generateDays = (maxDays: number) => {
+    const days: any[] = [];
+    for (let i = 0; i < maxDays; i++) {
+        days.push(
+            <option key={"day-" + (i + 1)} value={i + 1}>{i + 1}</option>
+        );
+    }
+
+    return days;
+}
+
+const generateYears = (currentYear: number) => {
+    const years: any[] = [];
+    for (let i = 0; i < YEAR_RANGE; i++) {
+        years.push(
+            <option key={"year-" + (currentYear - i)} value={currentYear - i}>{currentYear - i}</option>
+        );
+    }
+
+    return years;
 }
 
 export default DateSelector;
