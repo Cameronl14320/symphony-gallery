@@ -1,9 +1,9 @@
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import styles from "./membership.module.scss";
-import { Root, SignIn as signIn} from "../../config/routes";
+import { Root, SignUp as signUp} from "../../config/routes";
 import { useAppContext} from "../../config/appContext";
-import {SignIn as SignInComponent} from "../../components/auth/sign-in/sign-in";
+import {SignUp as SignUpComponent} from "../../components/auth/sign-up/sign-up";
 
 export const SignIn = () => {
     const router = useRouter();
@@ -22,7 +22,7 @@ export const SignIn = () => {
     }, [context.isLoggedIn]);
 
     const pushToRoot = (isLoggedIn: boolean) => {
-        if (isLoggedIn && router.route === signIn) {
+        if (isLoggedIn && router.route === signUp) {
             const redirectTo = !!(router.query.redirectTo as string) ? router.query.redirectTo as string : Root;
             router.push(redirectTo).then();
         }
@@ -30,7 +30,7 @@ export const SignIn = () => {
 
     return (
         <div className={styles.container}>
-            <SignInComponent/>
+            <SignUpComponent/>
         </div>
     );
 }

@@ -45,7 +45,7 @@ export class UserService {
         }
     }
 
-    public async signUpUserWithEmailAndPassword(email: string, password: string, nickname: string, dateOfBirth: Date) {
+    public async signUpUserWithEmailAndPassword(email: string, password: string, nickname: string, dateOfBirth: Date): Promise<IAuthState> {
         try {
             const user = await createUserWithEmailAndPassword(firebaseAuth, email, password);
 

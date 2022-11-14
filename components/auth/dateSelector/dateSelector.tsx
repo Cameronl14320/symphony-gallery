@@ -4,14 +4,21 @@ import {useEffect, useState} from "react";
 const YEAR_RANGE = 130;
 const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-
-export const DateSelector = () => {
+export const DateSelector = (props: {onChange?: (selectedDate: Date) => void}) => {
     const [loading, setLoading] = useState(false);
     const [latestDate] = useState(new Date());
     const [selectedDay, setSelectedDay] = useState(latestDate.getDay());
     const [selectedMonth, setSelectedMonth] = useState(latestDate.getMonth());
     const [selectedYear, setSelectedYear] = useState(latestDate.getFullYear());
     const [validDays, setValidDays] = useState(new Date(selectedMonth, selectedYear, 0).getDate());
+    const { onChange } = props;
+
+    useEffect(() => {
+        if (selectedDay > validDays) {
+            setSelectedDay(validDays);
+        }
+        setLoading(false);
+    }, [validDays]);
 
     useEffect(() => {
         const date = new Date(selectedYear, selectedMonth, 0).getDate();
@@ -23,11 +30,10 @@ export const DateSelector = () => {
     }, [selectedMonth, selectedYear]);
 
     useEffect(() => {
-        if (selectedDay > validDays) {
-            setSelectedDay(validDays);
+        if (!!onChange) {
+            onChange(new Date(selectedYear, selectedMonth, selectedDay));
         }
-        setLoading(false);
-    }, [validDays]);
+    }, [selectedDay, selectedMonth, selectedYear])
 
     const handleYearChange = (year: number) => {
         setLoading(true);
