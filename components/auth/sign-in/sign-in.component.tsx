@@ -1,11 +1,11 @@
 import {useState} from "react";
 import {useUserService} from "../../../config/config";
 import styles from "../membership.module.scss";
-import Button from "../../shared/button";
 import Link from "next/link";
-import {SignUp} from "../../../config/routes";
+import {SignUpRoute} from "../../../config/routes";
+import ButtonComponent from "../../shared/button.component";
 
-export const SignIn = (props: { redirectTo?: string }) => {
+export const SignInComponent = (props: { redirectTo?: string }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -23,7 +23,7 @@ export const SignIn = (props: { redirectTo?: string }) => {
         }
     }
 
-    const signUpRef = !!redirectTo ? {pathname: SignUp, query: { redirectTo: redirectTo}} : {pathname: SignUp};
+    const signUpRef = !!redirectTo ? {pathname: SignUpRoute, query: { redirectTo: redirectTo}} : {pathname: SignUpRoute};
 
     return (
         <div className={styles.container}>
@@ -40,7 +40,7 @@ export const SignIn = (props: { redirectTo?: string }) => {
             </div>
             <div>
                 <div className={styles.buttonSection}>
-                    <Button onClick={() => handleStandardSignIn()}>Sign in</Button>
+                    <ButtonComponent onClick={() => handleStandardSignIn()}>Sign in</ButtonComponent>
                 </div>
                 <div style={{display: "flex"}}>
                     <label>Don't have an account?</label>
@@ -51,4 +51,4 @@ export const SignIn = (props: { redirectTo?: string }) => {
     );
 }
 
-export default SignIn;
+export default SignInComponent;

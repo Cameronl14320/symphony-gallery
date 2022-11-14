@@ -16,7 +16,7 @@ export class UserService {
             userId: userId,
             nickname: nickname,
             verified: false,
-            dateOfBirth: dateOfBirth.toUTCString(),
+            dateOfBirth: dateOfBirth.toDateString(),
             accountCreated: new Date().toUTCString()
         };
 

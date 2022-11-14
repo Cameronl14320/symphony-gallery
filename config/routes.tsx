@@ -1,7 +1,8 @@
-export const SignIn = "/account/sign-in";
-export const SignUp = "/account/sign-up";
+export const SignInRoute = "/account/sign-in";
+export const SignUpRoute = "/account/sign-up";
 
-export const Browse = "/browse";
-export const Profile = "/profile";
+export const BrowseRoute = "/browse";
+export const ProfileRoute = "/profile";
+export const UploadRoute = "/upload";
 
-export const Root = "/";
+export const RootRoute = "/";

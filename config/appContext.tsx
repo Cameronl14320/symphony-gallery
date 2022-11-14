@@ -6,10 +6,6 @@ export const AppContext = createContext({
 
 export const AppDispatchContext = createContext({});
 
-export function useAppContext() {
+export default function useAppContext() {
     return useContext(AppContext);
-}
-
-export function useAppDispatchContext() {
-    return useContext(AppDispatchContext);
 }

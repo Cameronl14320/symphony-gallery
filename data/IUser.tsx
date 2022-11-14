@@ -2,6 +2,6 @@ export interface IUser {
     userId: string,
     nickname: string
     verified: boolean,
-    dateOfBirth: string
+    dateOfBirth: string,
     accountCreated: string
 }

@@ -1,6 +1,6 @@
 import styles from "./button.module.scss";
 
-export const Button = (props: { children?: any, style?: any, onClick?: (event: any) => void }) => {
+export const ButtonComponent = (props: { children?: any, style?: any, onClick?: (event: any) => void }) => {
     const { children, style, onClick } = props;
 
     return (
@@ -12,4 +12,4 @@ export const Button = (props: { children?: any, style?: any, onClick?: (event: a
     )
 }
 
-export default Button;
+export default ButtonComponent;

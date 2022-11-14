@@ -1,9 +1,9 @@
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import styles from "./membership.module.scss";
-import { Root, SignIn as signIn} from "../../config/routes";
-import { useAppContext} from "../../config/appContext";
-import {SignIn as SignInComponent} from "../../components/auth/sign-in/sign-in";
+import { RootRoute, SignInRoute} from "../../config/routes";
+import useAppContext from "../../config/appContext";
+import SignInComponent from "../../components/auth/sign-in/sign-in.component";
 
 export const SignIn = () => {
     const router = useRouter();
@@ -22,8 +22,8 @@ export const SignIn = () => {
     }, [context.isLoggedIn]);
 
     const pushToRoot = (isLoggedIn: boolean) => {
-        if (isLoggedIn && router.route === signIn) {
-            const redirectTo = !!(router.query.redirectTo as string) ? router.query.redirectTo as string : Root;
+        if (isLoggedIn && router.route === SignInRoute) {
+            const redirectTo = !!(router.query.redirectTo as string) ? router.query.redirectTo as string : RootRoute;
             router.push(redirectTo).then();
         }
     };
