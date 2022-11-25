@@ -11,14 +11,13 @@ export const Upload = () => {
         event.preventDefault();
 
         const items = Array.from(event.dataTransfer.items);
-        const existingImages = uploaded;
         const images: File[] = [];
         if (items) {
             items.forEach((item, index) => {
                 if (item.kind === 'file' && item.type.match('^image/')) {
                     const file = item.getAsFile();
                     if (!!file) {
-                        if (!existingImages.some(image => image != file)) {
+                        if (!uploaded.some(image => image != file)) {
                             images.push(file);
                         } else {
                         images.push(file);
@@ -33,7 +32,7 @@ export const Upload = () => {
             });
         }
 
-        setUploaded(existingImages.concat(images));
+        setUploaded(uploaded.concat(images));
     }
 
     const handleDragOverEvent = (event: React.DragEvent<HTMLDivElement>) => {
