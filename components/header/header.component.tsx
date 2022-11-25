@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./header.module.scss";
-import { useState } from "react";
+import React, { useState } from "react";
 import {BrowseRoute, ProfileRoute, RootRoute, SignInRoute, SignUpRoute, UploadRoute} from "../../config/routes";
 import { useRouter } from "next/router";
 import { AppContext } from "../../config/appContext";
@@ -10,7 +10,13 @@ export const HeaderComponent = () => {
     const [searchString, setSearchString] = useState<string>("");
     const router = useRouter();
 
-    const browseRef = searchString === "" ? {pathName: BrowseRoute} : {pathName: BrowseRoute, query: { searchString: searchString }};
+    const browseRef = searchString === "" ? {pathname: BrowseRoute} : {pathname: BrowseRoute, query: { searchString: searchString }};
+
+    const handleSearchBarKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            router.push(browseRef);
+        }
+    }
 
     return (
         <AppContext.Consumer>
@@ -25,8 +31,8 @@ export const HeaderComponent = () => {
                         </li>
                         <li>
                             <div className={styles.search}>
-                                <input type="search" value={searchString} onChange={e => setSearchString(e.target.value)}></input>
-                                <Link href={browseRef}>Find</Link>
+                                <input type="search" value={searchString} onChange={e => setSearchString(e.target.value)} onKeyDown={(event) => handleSearchBarKeyDown(event)}></input>
+                                <Link type="submit" href={browseRef}>Find</Link>
                             </div>
                         </li>
                         <li>
